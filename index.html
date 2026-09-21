@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Text Scanner – OCR & PDF | SayemApps</title>
+  <meta name="description" content="Fast, 100% on-device OCR text recognition, PDF/TXT export, and document scanning for Android." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #1A73E8;
+      --primary-dark: #1557B0;
+      --primary-light: #E8F0FE;
+      --dark: #1E293B;
+      --slate: #64748B;
+      --bg: #F8FAFC;
+      --card-bg: #FFFFFF;
+      --border: #E2E8F0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--dark);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header / Nav */
+    header {
+      padding: 24px 0;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .nav-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: var(--dark);
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #1A73E8, #0D47A1);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 20px;
+      box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--slate);
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 80px 0 60px;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      color: var(--dark);
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, #1A73E8, #34A853);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--slate);
+      max-width: 680px;
+      margin: 0 auto 36px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-playstore {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: #000000;
+      color: #ffffff;
+      padding: 12px 24px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-playstore:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      padding: 12px 24px;
+      border-radius: 12px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: background 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+      background: #F1F5F9;
+    }
+
+    /* Features Grid */
+    .features {
+      padding: 70px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-title h2 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .section-title p {
+      color: var(--slate);
+      font-size: 1.1rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 32px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 20px -2px rgba(0, 0, 0, 0.08);
+    }
+
+    .card-icon {
+      width: 52px;
+      height: 52px;
+      background: var(--primary-light);
+      color: var(--primary);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      color: var(--slate);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* Privacy Banner */
+    .privacy-banner {
+      margin: 40px 0 80px;
+      background: linear-gradient(135deg, #1E293B, #0F172A);
+      color: #FFFFFF;
+      border-radius: 20px;
+      padding: 48px;
+      text-align: center;
+    }
+
+    .privacy-banner h3 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .privacy-banner p {
+      color: #94A3B8;
+      max-width: 600px;
+      margin: 0 auto 24px;
+      font-size: 1rem;
+    }
+
+    .privacy-banner a {
+      display: inline-block;
+      color: #38BDF8;
+      text-decoration: none;
+      font-weight: 700;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    .privacy-banner a:hover {
+      border-color: #38BDF8;
+    }
+
+    /* Footer */
+    footer {
+      background: #FFFFFF;
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+      text-align: center;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 16px;
+    }
+
+    .footer-links a {
+      color: var(--slate);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+
+    .copyright {
+      color: #94A3B8;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      .privacy-banner {
+        padding: 32px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="container nav-wrapper">
+      <a href="#" class="brand">
+        <div class="brand-icon">📄</div>
+        SayemApps
+      </a>
+      <nav class="nav-links">
+        <a href="#features">Features</a>
+        <a href="https://md-sayem-hossain.github.io/sayemapps/textscanner-privacy" target="_blank">Privacy Policy</a>
+        <a href="mailto:sayemworkspace@gmail.com">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="badge">🚀 Fast & On-Device Recognition</div>
+      <h1>Text Scanner<br/><span>OCR & PDF</span></h1>
+      <p>Transform any document, receipt, book, or handwritten note into editable text in seconds. 100% on-device processing keeps your sensitive data private.</p>
+      
+      <div class="hero-buttons">
+        <!-- Update with your actual Google Play package link once published -->
+        <a href="https://play.google.com/store/apps/details?id=com.sayemapps.textscanner.ocredt" class="btn-playstore" target="_blank">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M3.609 1.814L13.793 12 3.61 22.186a2.38 2.38 0 0 1-.61-.955V2.77c.142-.366.353-.7.61-.955zm11.602 11.604L4.79 23.839c.277.106.58.161.892.161.54 0 1.05-.18 1.46-.5l10.957-6.282-2.888-3.8zm0-2.836l2.888-3.8L7.142.5a2.41 2.41 0 0 0-1.46-.5c-.312 0-.615.055-.892.161l10.421 10.421zm1.758 1.418l3.66 2.097c1.173.673 1.173 1.764 0 2.436l-3.66 2.098-2.316-3.315 2.316-3.316z"/>
+          </svg>
+          Get it on Google Play
+        </a>
+        <a href="#features" class="btn-secondary">Explore Features</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-title">
+        <h2>Engineered for Accuracy & Speed</h2>
+        <p>Everything you need to scan, digitize, and share documents effortlessly.</p>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <div class="card-icon">⚡</div>
+          <h3>Instant On-Device OCR</h3>
+          <p>Powered by Google ML Kit. Extracts text offline in milliseconds with zero latency and zero internet dependency.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">🔒</div>
+          <h3>100% Private & Secure</h3>
+          <p>Your photos and scanned text never leave your device. We do not upload your documents to external cloud servers.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">📑</div>
+          <h3>Export to PDF & TXT</h3>
+          <p>Save scanned results directly as clean, formatted PDF documents or plaintext files with one single tap.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">✍️</div>
+          <h3>Built-in Text Editor</h3>
+          <p>Edit typos, format paragraphs, copy to clipboard, or share text directly to WhatsApp, Gmail, or your Notes app.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">🕒</div>
+          <h3>Scan History</h3>
+          <p>Never lose an important scan. Easily access, search, re-export, or delete your previous scans anytime.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">🎯</div>
+          <h3>Smart Camera & Gallery</h3>
+          <p>Scan documents using your phone camera with live autofocus or pick existing photos directly from your gallery.</p>
+        </div>
+      </div>
+
+      <!-- Privacy Assurance Banner -->
+      <div class="privacy-banner">
+        <h3>Your Privacy is Our Top Priority</h3>
+        <p>Text Scanner – OCR & PDF processes all documents locally on your device. We don't track what you scan or store copies of your documents.</p>
+        <a href="https://md-sayem-hossain.github.io/sayemapps/textscanner-privacy" target="_blank">Read Our Full Privacy Policy &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="https://md-sayem-hossain.github.io/sayemapps/textscanner-privacy" target="_blank">Privacy Policy</a>
+        <a href="mailto:sayemworkspace@gmail.com">Support & Inquiries</a>
+      </div>
+      <p class="copyright">© 2026 SayemApps. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
